@@ -60,8 +60,8 @@ export default function SistemaRegistroEquipos() {
 
   const manejarRegistroSalida = (id: string) => {
     const ahora = new Date()
-    setEquipos(
-      equipos.map((equipo) =>
+    setEquipos((equiposPrevios) =>
+      equiposPrevios.map((equipo) =>
         equipo.id === id
           ? {
               ...equipo,
@@ -74,7 +74,11 @@ export default function SistemaRegistroEquipos() {
   }
 
   const manejarEditarEquipo = (id: string, cambios: Partial<Equipo>) => {
-    setEquipos(equipos.map((equipo) => (equipo.id === id ? { ...equipo, ...cambios } : equipo)))
+    setEquipos((equiposPrevios) =>
+      equiposPrevios.map((equipo) =>
+        equipo.id === id ? { ...equipo, ...cambios } : equipo,
+      ),
+    )
   }
 
   const calcularEstadisticas = (): EstadisticasAdmin => {
