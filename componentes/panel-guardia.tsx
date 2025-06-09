@@ -75,6 +75,7 @@ export default function PanelGuardia({
       equipo.nombreEstudiante.toLowerCase().includes(busqueda.toLowerCase()),
   )
 
+  // Mostrar estados de carga y error
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-white">
       {/* Header */}
@@ -105,6 +106,14 @@ export default function PanelGuardia({
       </div>
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        {/* Mensajes de carga y error */}
+        {typeof window !== 'undefined' && (window as any).cargandoEquipos && (
+          <div className="text-center text-violet-600 font-semibold">Cargando equipos...</div>
+        )}
+        {typeof window !== 'undefined' && (window as any).errorEquipos && (
+          <div className="text-center text-red-600 font-semibold">{(window as any).errorEquipos}</div>
+        )}
+
         {/* Formulario de Registro */}
         <Card className="shadow-lg">
           <CardHeader>

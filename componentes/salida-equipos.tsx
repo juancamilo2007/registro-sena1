@@ -239,6 +239,14 @@ export default function SalidaEquipos({ usuario, equipos, onVolver, onRegistrarS
             <CardDescription>Total: {equiposEnInstitucion.length} equipos</CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Mensajes de carga y error globales */}
+            {typeof window !== 'undefined' && (window as any).cargandoEquipos && (
+              <div className="text-center text-violet-600 font-semibold">Cargando equipos...</div>
+            )}
+            {typeof window !== 'undefined' && (window as any).errorEquipos && (
+              <div className="text-center text-red-600 font-semibold">{(window as any).errorEquipos}</div>
+            )}
+
             {equiposEnInstitucion.length === 0 ? (
               <p className="text-center text-gray-500 py-4">No hay equipos en la institución</p>
             ) : (

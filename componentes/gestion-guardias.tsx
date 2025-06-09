@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Users, Clock, Monitor, Activity } from "lucide-react"
+import { useEffect, useState } from "react"
+import { obtenerSesionesGuardias, obtenerEstadisticas } from "../utils/autenticacion"
 import type { Usuario, SesionGuardia } from "../tipos/interfaces"
-import { obtenerSesionesGuardias, obtenerEstadisticasGuardias } from "../utils/autenticacion"
 
 interface Props {
   usuario: Usuario
@@ -13,15 +14,20 @@ interface Props {
 }
 
 export default function GestionGuardias({ usuario, onVolver }: Props) {
-  const sesiones = obtenerSesionesGuardias()
-  const estadisticas = obtenerEstadisticasGuardias()
+  const [sesiones, setSesiones] = useState<any[]>([])
+  const [estadisticas, setEstadisticas] = useState<any[]>([])
+
+  useEffect(() => {
+    obtenerSesionesGuardias().then(setSesiones)
+    obtenerEstadisticas().then(setEstadisticas)
+  }, [])
 
   // Filtrar sesiones del día actual
   const hoy = new Date().toLocaleDateString("es-ES")
-  const sesionesHoy = sesiones.filter((sesion) => sesion.fechaIngreso === hoy)
+  const sesionesHoy = sesiones.filter((sesion: any) => sesion.fechaIngreso === hoy)
 
   // Ordenar sesiones por hora de ingreso (más reciente primero)
-  const sesionesOrdenadas = [...sesiones].sort((a, b) => {
+  const sesionesOrdenadas = [...sesiones].sort((a: any, b: any) => {
     const fechaA = new Date(`${a.fechaIngreso} ${a.horaIngreso}`)
     const fechaB = new Date(`${b.fechaIngreso} ${b.horaIngreso}`)
     return fechaB.getTime() - fechaA.getTime()

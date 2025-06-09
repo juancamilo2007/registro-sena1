@@ -27,7 +27,7 @@ export default function PanelAdministrador({ usuario, onLogout, equipos, estadis
   const [error, setError] = useState("")
   const [exito, setExito] = useState("")
 
-  const manejarRegistroAdmin = (e: React.FormEvent) => {
+  const manejarRegistroAdmin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
     setExito("")
@@ -37,15 +37,18 @@ export default function PanelAdministrador({ usuario, onLogout, equipos, estadis
       return
     }
 
-    const registroExitoso = registrarUsuario(nombreAdmin, correoAdmin, contraseñaAdmin, true)
-
-    if (registroExitoso) {
-      setExito("Administrador registrado exitosamente")
-      setNombreAdmin("")
-      setCorreoAdmin("")
-      setContraseñaAdmin("")
-    } else {
-      setError("El correo ya está registrado")
+    try {
+      const registroExitoso = await registrarUsuario(nombreAdmin, correoAdmin, contraseñaAdmin, true)
+      if (registroExitoso) {
+        setExito("Administrador registrado exitosamente")
+        setNombreAdmin("")
+        setCorreoAdmin("")
+        setContraseñaAdmin("")
+      } else {
+        setError("El correo ya está registrado")
+      }
+    } catch (err) {
+      setError("Error al registrar administrador")
     }
   }
 
@@ -192,6 +195,14 @@ export default function PanelAdministrador({ usuario, onLogout, equipos, estadis
             </form>
           </CardContent>
         </Card>
+
+        {/* Mensajes de carga y error globales */}
+        {typeof window !== 'undefined' && (window as any).cargandoEquipos && (
+          <div className="text-center text-violet-600 font-semibold">Cargando equipos...</div>
+        )}
+        {typeof window !== 'undefined' && (window as any).errorEquipos && (
+          <div className="text-center text-red-600 font-semibold">{(window as any).errorEquipos}</div>
+        )}
 
         {/* Tabla Detallada de Equipos */}
         <Card className="shadow-lg">

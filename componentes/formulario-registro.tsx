@@ -41,10 +41,8 @@ export default function FormularioRegistro({ onVolverLogin }: Props) {
       return
     }
 
-    // Simular delay de registro
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    const registroExitoso = registrarUsuario(nombre, correo, contraseña)
+    // Registro real
+    const registroExitoso = await registrarUsuario(nombre, correo, contraseña)
 
     if (registroExitoso) {
       setExito(true)

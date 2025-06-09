@@ -30,7 +30,7 @@ export default function FormularioLogin({ onLogin, onMostrarRegistro }: Props) {
     // Simular delay de autenticación
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    const usuario = validarCredenciales(correo, contraseña)
+    const usuario = await validarCredenciales(correo, contraseña)
 
     if (usuario) {
       onLogin(usuario)
